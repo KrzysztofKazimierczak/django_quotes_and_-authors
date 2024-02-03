@@ -8,7 +8,7 @@
         <label> Author:
             {{ form.author }}
         </label>
-        <span>{{ form.errors.Author }}</span>
+        <span>{{ form.errors.author }}</span>
     </div>
     <div style="padding: 10px">
         <label> Quote:
@@ -20,7 +20,7 @@
         <label> Select tags:
             <select name="tag" multiple="multiple" required>
                 {% for tag in tags %}
-                <option value="{{tag.tag}}">{{tag.tag}}</option>
+                <option value="{{tags.tags}}">{{tag.tag}}</option>
                 {% endfor %}
             </select>
         </label>

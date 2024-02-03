@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import TagForm, QuoteForm
+from .forms import TagForm, QuoteForm, AuthorForm
 from .models import Tag, Quote
 
 
@@ -25,7 +25,7 @@ def add_quote(request):
         if form.is_valid():
             new_quote = form.save()
 
-            choice_tags = Tag.objects.filter(name__in=request.POST.getlist('tags'))
+            choice_tags = Tag.objects.filter(tag__in=request.POST.getlist('tags'))
             for tag in choice_tags.iterator():
                 new_quote.tags.add(tag)
 
@@ -36,5 +36,16 @@ def add_quote(request):
     return render(request, 'quotesapp/add_quote.html', {"tags": tags, 'form': QuoteForm()})
 
 def quote(request, quote_id):
-    note = get_object_or_404(Quote, pk=quote_id)
+    quote = get_object_or_404(Quote, pk=quote_id)
     return render(request, 'quotesapp/quote.html', {"quote": quote})
+
+def add_author(request):
+    if request.method == 'POST':
+        form = AuthorForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(to='quotesapp:main')
+        else:
+            return render(request, 'quotesapp/add_author.html', {'form': form})
+
+    return render(request, 'quotesapp/add_author.html', {'form': AuthorForm()})
