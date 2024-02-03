@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import TagForm, QuoteForm
-from .models import Tag
+from .models import Tag, Quote
 
 
 def main(request):
@@ -34,3 +34,7 @@ def add_quote(request):
             return render(request, 'quotesapp/add_quote.html', {"tags": tags, 'form': form})
 
     return render(request, 'quotesapp/add_quote.html', {"tags": tags, 'form': QuoteForm()})
+
+def quote(request, quote_id):
+    note = get_object_or_404(Quote, pk=quote_id)
+    return render(request, 'quotesapp/quote.html', {"quote": quote})
