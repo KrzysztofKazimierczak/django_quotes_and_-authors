@@ -18,9 +18,9 @@
     </div>
     <div style="padding: 10px">
         <label> Select tags:
-            <select name="tag" multiple="multiple" required>
+            <select name="tags" multiple="multiple" required>
                 {% for tag in tags %}
-                <option value="{{tags.tags}}">{{tag.tag}}</option>
+                <option value="{{tag.tag}}">{{tag.tag}}</option>
                 {% endfor %}
             </select>
         </label>
