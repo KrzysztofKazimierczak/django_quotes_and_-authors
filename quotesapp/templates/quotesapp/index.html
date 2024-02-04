@@ -8,11 +8,19 @@
 <body>
 <main class="container">
     <nav style="margin-bottom: 20px; border-bottom: 2px solid; padding-left: 30px">
-        <ul>
-            <li><a href="{% url 'quotesapp:add_author' %}" role="button">Add author</a></li>
-            <li><a href="{% url 'quotesapp:add_quote' %}" role="button">Add quote</a></li>
-            <li><a href="{% url 'quotesapp:add_tag' %}" role="button">Add Tag</a></li>
-        </ul>
+        {% if user.is_authenticated %}
+            <ul>
+                <li><a href="{% url 'quotesapp:add_author' %}" role="button">Add author</a></li>
+                <li><a href="{% url 'quotesapp:add_quote' %}" role="button">Add quote</a></li>
+                <li><a href="{% url 'quotesapp:add_tag' %}" role="button">Add Tag</a></li>
+            </ul>
+        {% else %}
+            <ul>
+                <li><a href="{% url 'users:signup' %}" role="button">Sign Up</a></li>
+                <li><a href="{% url 'users:login' %}" role="button">Login</a></li>
+            </ul>
+        {% endif %}
+
     </nav>
 
     {% for quote in quotes %}
