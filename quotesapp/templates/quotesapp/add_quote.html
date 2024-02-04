@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<form method="POST" action="{% url 'quotesapp:quote' %}">
+<form method="POST" action="{% url 'quotesapp:add_quote' %}">
     {% csrf_token %}
     <div style="padding: 10px">
         <label> Author:

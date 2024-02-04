@@ -4,7 +4,9 @@ from .models import Tag, Quote
 
 
 def main(request):
-    return render(request, 'quotesapp/index.html')
+    quotes = Quote.objects.all()
+    return render(request, 'quotesapp/index.html', {"quotes": quotes})
+
 
 def tag(request):
     if request.method == 'POST':
@@ -49,3 +51,7 @@ def add_author(request):
             return render(request, 'quotesapp/add_author.html', {'form': form})
 
     return render(request, 'quotesapp/add_author.html', {'form': AuthorForm()})
+
+def delete_quote(request, quote_id):
+    Quote.objects.get(pk=quote_id).delete()
+    return redirect(to='quotesapp:main')
