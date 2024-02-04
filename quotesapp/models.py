@@ -1,13 +1,17 @@
 from django.db import models
 
 class Author(models.Model):
-    name = models.CharField(max_length=50, null=False)
+    name = models.CharField(max_length=50, null=False, unique=True)
     born_date = models.DateField()
     born_location = models.CharField(max_length=50)
     description = models.CharField(max_length=255)
 
     def __str__(self):
         return f"{self.name}"
+    
+    @property
+    def quotes(self):
+        return self.quote_set.all()
     
 class Tag(models.Model):
     tag = models.CharField(max_length=20, unique=True, null=False)

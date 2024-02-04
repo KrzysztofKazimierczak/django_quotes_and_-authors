@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<form method="POST" action="{% url 'quotesapp:tag' %}">
+<form method="POST" action="{% url 'quotesapp:add_tag' %}">
     {% csrf_token %}
     <div style="padding: 10px">
         <label>Enter the tag:

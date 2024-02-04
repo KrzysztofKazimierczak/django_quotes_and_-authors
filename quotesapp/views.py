@@ -1,23 +1,33 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import TagForm, QuoteForm, AuthorForm
-from .models import Tag, Quote
+from .models import Tag, Quote, Author
 
 
 def main(request):
-    quotes = Quote.objects.all()
+    quotes = Quote.objects.select_related('author').all()
     return render(request, 'quotesapp/index.html', {"quotes": quotes})
 
 
-def tag(request):
+
+def add_tag(request):
     if request.method == 'POST':
         form = TagForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect(to='quotesapp:main')
         else:
-            return render(request, 'quotesapp/tag.html', {'form': form})
+            return render(request, 'quotesapp/add_tag.html', {'form': form})
 
-    return render(request, 'quotesapp/tag.html', {'form': TagForm()})
+    return render(request, 'quotesapp/add_tag.html', {'form': TagForm()})
+
+def quote(request, quote_id):
+    quote = get_object_or_404(Quote, pk=quote_id)
+    return render(request, 'quotesapp/quote.html', {"quote": quote})
+
+def author(request, author_id):
+    author = get_object_or_404(Author, pk=author_id)
+    return render(request, 'quotesapp/author.html', {"author": author})
+
 
 def add_quote(request):
     tags = Tag.objects.all()
@@ -37,9 +47,6 @@ def add_quote(request):
 
     return render(request, 'quotesapp/add_quote.html', {"tags": tags, 'form': QuoteForm()})
 
-def quote(request, quote_id):
-    quote = get_object_or_404(Quote, pk=quote_id)
-    return render(request, 'quotesapp/quote.html', {"quote": quote})
 
 def add_author(request):
     if request.method == 'POST':

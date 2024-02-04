@@ -11,7 +11,7 @@
         <ul>
             <li><a href="{% url 'quotesapp:add_author' %}" role="button">Add author</a></li>
             <li><a href="{% url 'quotesapp:add_quote' %}" role="button">Add quote</a></li>
-            <li><a href="{% url 'quotesapp:tag' %}" role="button">Add Tag</a></li>
+            <li><a href="{% url 'quotesapp:add_tag' %}" role="button">Add Tag</a></li>
         </ul>
     </nav>
 
@@ -19,13 +19,16 @@
         
         <div style="margin-top:3%; padding-top:2%; clear: both;">
             <div style="float: left; width: 70%;">
-                <span>{{ quote.content }}</span><br>
-                <span style="font-style: italic;">{{ quote.author }}</span><br>
+                <span style="font-size: 140%">"{{ quote.content }}"</span><br>
+                <span style="font-style: italic;">
+                    <a href="{% url 'quotesapp:author' quote.author.id %}">{{ quote.author }}</a>
+                </span><br>
+
                 {% load extract_tags %} 
-                <span>Tags: <small> {{ quote.tags|tags }} </small></span>
+                <span  style="font-size: 80%;">Tags: <small>{{ quote.tags|tags }}</small></span>
             </div>
             <div style="width: 30%; float: right; text-align: right;">
-                <a href="{% url 'quotesapp:delete' quote.id %}" role="button" class="contrast"> Delete Quote </a>
+                <a href="{% url 'quotesapp:delete' quote.id %}" role="button" class="contrast">Delete Quote</a>
             </div>
         </div>      
         <br>
