@@ -14,6 +14,29 @@
                 <li><a href="{% url 'quotesapp:add_quote' %}" role="button">Add quote</a></li>
                 <li><a href="{% url 'quotesapp:add_tag' %}" role="button">Add Tag</a></li>
             </ul>
+            <form method="post" action="{% url 'quotesapp:add_quote' %}" style="display: flex; margin-bottom: 0px;">
+                {% csrf_token %}
+
+            <div style="flex: 1; display: flex; align-items: center;">
+                <span style="margin-right: 25px;">Scrap me:</span>
+
+                <div style="flex: 1;">
+                    <label>
+                        <input type="radio" name="choice" value="author" checked>
+                        Author
+                    </label>
+
+                    <label>
+                        <input type="radio" name="choice" value="quote">
+                        Quote
+                    </label>
+                </div>
+
+                <div style="padding-left: 15px;">
+                    <input type="submit" value="Submit" class="button">
+                </div>
+            </form>
+
         {% else %}
             <ul>
                 <li><a href="{% url 'users:signup' %}" role="button">Sign Up</a></li>
@@ -26,9 +49,9 @@
     {% for quote in quotes %}
         
         <div style="margin-top:3%; padding-top:2%; clear: both;">
-            <div style="float: left; width: 70%;">
-                <span style="font-size: 140%">"{{ quote.content }}"</span><br>
-                <span style="font-style: italic;">
+            <div style="float: left; width: 70%;" class="record">
+                <span style="font-size: 140%" class="quote">"{{ quote.content }}"</span><br>
+                <span style="font-style: italic;" class="author">
                     <a href="{% url 'quotesapp:author' quote.author.id %}">{{ quote.author }}</a>
                 </span><br>
 
