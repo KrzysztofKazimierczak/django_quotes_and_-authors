@@ -7,36 +7,22 @@
 </head>
 <body>
 <main class="container">
-    <nav style="margin-bottom: 20px; border-bottom: 2px solid; padding-left: 30px">
+    <nav style="margin-bottom: 20px; border-bottom: 2px solid; padding-left: 30px;">
         {% if user.is_authenticated %}
+        <div style="width: 50%;">
             <ul>
                 <li><a href="{% url 'quotesapp:add_author' %}" role="button">Add author</a></li>
                 <li><a href="{% url 'quotesapp:add_quote' %}" role="button">Add quote</a></li>
                 <li><a href="{% url 'quotesapp:add_tag' %}" role="button">Add Tag</a></li>
             </ul>
-            <form method="post" action="{% url 'quotesapp:add_quote' %}" style="display: flex; margin-bottom: 0px;">
-                {% csrf_token %}
-
-            <div style="flex: 1; display: flex; align-items: center;">
-                <span style="margin-right: 25px;">Scrap me:</span>
-
-                <div style="flex: 1;">
-                    <label>
-                        <input type="radio" name="choice" value="author" checked>
-                        Author
-                    </label>
-
-                    <label>
-                        <input type="radio" name="choice" value="quote">
-                        Quote
-                    </label>
-                </div>
-
-                <div style="padding-left: 15px;">
-                    <input type="submit" value="Submit" class="button">
-                </div>
-            </form>
-
+        </div>
+        <div style="width: 50%;">
+            <ul style="float: right; text-align: right;">
+                <li><a style="width: 150px;" href="{% url 'quotesapp:scrapper' option='author' %}" role="button" >Scrap Authors</a></li>
+                <li><a style="width: 140px;" href="{% url 'quotesapp:scrapper' option='quote' %}" role="button" >Scrap Quotes</a></li>
+                <li><a style="width: 140px;" href="{% url 'quotesapp:scrapper' option='tag' %}" role="button" >Scrap Tags</a></li>
+            </ul>
+        </div>
         {% else %}
             <ul>
                 <li><a href="{% url 'users:signup' %}" role="button">Sign Up</a></li>
@@ -56,7 +42,15 @@
                 </span><br>
 
                 {% load extract_tags %} 
-                <span  style="font-size: 80%;">Tags: <small>{{ quote.tags|tags }}</small></span>
+                <span style="font-size: 80%;">Tags: 
+                    {% if quote.tags.all %}
+                        {% for tag in quote.tags.all %}
+                            {% if not forloop.first %}, {% endif %}
+                            <span class="tag">{{ tag.tag }}</span>
+                        {% endfor %}
+                    {% endif %}
+                </span>
+
             </div>
             <div style="width: 30%; float: right; text-align: right;">
                 <a href="{% url 'quotesapp:delete' quote.id %}" role="button" class="contrast">Delete Quote</a>

@@ -26,3 +26,10 @@ class Quote(models.Model):
 
     def __str__(self):
         return f"{self.content}"
+    
+class ScrapData(models.Model):
+    choice = models.CharField(max_length=255)
+    dictionary = models.JSONField()
+
+    def __str__(self):
+        return f"{self.dictionary}"

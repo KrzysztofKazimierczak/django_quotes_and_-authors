@@ -1,5 +1,5 @@
 from django.forms import ModelForm, CharField, TextInput, ModelChoiceField, DateField, DateInput
-from .models import Tag, Quote, Author
+from .models import Tag, Quote, Author, ScrapData
 
 class TagForm(ModelForm):
 
@@ -29,3 +29,8 @@ class AuthorForm(ModelForm):
     class Meta:
         model = Author
         fields = ['name','born_date','born_location','description']
+
+class ScrapperForm(ModelForm):
+    class Meta:
+        model = ScrapData
+        fields = ['choice', 'dictionary']
