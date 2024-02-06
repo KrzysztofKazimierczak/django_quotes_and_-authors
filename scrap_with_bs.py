@@ -1,6 +1,5 @@
 import requests
 from bs4 import BeautifulSoup
-import json
 
 
 def find_data(url, data_to_scrap):

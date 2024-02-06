@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import TagForm, QuoteForm, AuthorForm, ScrapperForm
 from .models import Tag, Quote, Author, ScrapData
 from scrap_with_bs import find_data
+import subprocess
+import os
 
 
 def main(request):
@@ -65,11 +67,33 @@ def delete_quote(request, quote_id):
     return redirect(to='quotesapp:main')
 
 
-def scraper(request, option):
+"""def scraper(request, option):
     url = "http://localhost:8000/"
     data = find_data(url, option)
 
     scrap_data_object = ScrapData(choice=option, dictionary=data)
     scrap_data_object.save()
 
-    return render(request, 'quotesapp/scraped_data.html', {'scraped_data': data})
+    return render(request, 'quotesapp/scraped_data.html', {'scraped_data': data})"""
+
+def scraper(request, option):
+    # Ścieżka do katalogu zawierającego projekt Scrapy
+    scrapy_project_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'scrapmyside', 'scrapmyside'))
+
+    # Przejdź do katalogu projektu Scrapy
+    os.chdir(scrapy_project_dir)
+
+    # Uruchomienie Scrapy za pomocą subprocess i zbieranie danych
+    process = subprocess.Popen(['scrapy', 'crawl', 'myspider', '-a', 'data_to_scrap=' + option], stdout=subprocess.PIPE)
+    output, _ = process.communicate()
+    scraped_data = output.decode('utf-8')
+
+    # Zapis danych do bazy danych
+    scrap_data_object = ScrapData(choice=option, dictionary=scraped_data)
+    scrap_data_object.save()
+
+    # Powrót do katalogu projektu Django
+    os.chdir(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+    # Przekazanie danych do szablonu
+    return render(request, 'quotesapp/scraped_data.html', {'scraped_data': scraped_data})
