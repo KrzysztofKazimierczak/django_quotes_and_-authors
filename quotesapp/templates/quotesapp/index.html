@@ -54,9 +54,11 @@
                 </span>
 
             </div>
+            {% if user.is_authenticated %}
             <div style="width: 30%; float: right; text-align: right;">
                 <a href="{% url 'quotesapp:delete' quote.id %}" role="button" class="contrast">Delete Quote</a>
             </div>
+            {% endif %}
         </div>      
         <br>
     {% endfor %}

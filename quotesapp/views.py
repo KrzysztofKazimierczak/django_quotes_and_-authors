@@ -77,23 +77,19 @@ def delete_quote(request, quote_id):
     return render(request, 'quotesapp/scraped_data.html', {'scraped_data': data})"""
 
 def scraper(request, option):
-    # Ścieżka do katalogu zawierającego projekt Scrapy
-    scrapy_project_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'scrapmyside', 'scrapmyside'))
-
-    # Przejdź do katalogu projektu Scrapy
+    django_project_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    scrapy_project_dir = os.path.join(django_project_dir, 'scrapmyside/scrapmyside')
+    
     os.chdir(scrapy_project_dir)
-
-    # Uruchomienie Scrapy za pomocą subprocess i zbieranie danych
-    process = subprocess.Popen(['scrapy', 'crawl', 'myspider', '-a', 'data_to_scrap=' + option], stdout=subprocess.PIPE)
+    
+    process = subprocess.Popen(['scrapy', 'crawl', 'myspider', '-a', f'data_to_scrap={option}'], stdout=subprocess.PIPE)
     output, _ = process.communicate()
+    
     scraped_data = output.decode('utf-8')
-
-    # Zapis danych do bazy danych
+    
     scrap_data_object = ScrapData(choice=option, dictionary=scraped_data)
     scrap_data_object.save()
 
-    # Powrót do katalogu projektu Django
-    os.chdir(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+    os.chdir(django_project_dir)
 
-    # Przekazanie danych do szablonu
     return render(request, 'quotesapp/scraped_data.html', {'scraped_data': scraped_data})
