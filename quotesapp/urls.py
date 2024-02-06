@@ -11,5 +11,5 @@ urlpatterns = [
     path('add_quote/', views.add_quote, name='add_quote'),
     path('add_tag/', views.add_tag, name='add_tag'),
     path('delete/<int:quote_id>', views.delete_quote, name='delete'),
-    path('scrapper/<str:option>/', views.scrapper, name='scrapper'),
+    path('scrap/<str:option>/', views.scraper, name='scraper'),
 ]

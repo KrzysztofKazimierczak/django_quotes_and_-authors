@@ -1,0 +1,12 @@
+{% extends "quotesapp/base.html" %} {% block content %}
+
+<h1>Scraped Data</h1>
+    <span>[</span>
+    {% for item in scraped_data %}
+        <span>{{ item }}</span>
+    {% endfor %}
+    <span>]</span>
+
+    
+
+{% endblock %}

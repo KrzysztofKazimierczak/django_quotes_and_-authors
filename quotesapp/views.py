@@ -65,36 +65,11 @@ def delete_quote(request, quote_id):
     return redirect(to='quotesapp:main')
 
 
-def scrapper(request, option):
+def scraper(request, option):
     url = "http://localhost:8000/"
-    print(option)
     data = find_data(url, option)
-    print(data)
-    print(request)
 
-    if request.method == 'POST':
-        form = ScrapperForm(request.POST)
-        print(form.is_valid)
-        if form.is_valid():
-            form.save()
-            return redirect(to='quotesapp:main')
-    else:
-        print("else")
-        form = ScrapperForm(initial={'choice': option, 'dictionary': data})
+    scrap_data_object = ScrapData(choice=option, dictionary=data)
+    scrap_data_object.save()
 
-    return render(request, 'quotesapp/index.html', {'form': form})
-
-
-    if request.method == 'POST':
-        form = ScrapperForm(request.POST)
-        if form.is_valid():
-            # Zapisz dane do bazy danych
-            ScrapData.objects.create(choice=form.cleaned_data['choice'], dictionaries=form.cleaned_data['dictionary'])
-            # Wyczyść formularz po zapisaniu danych
-            form = ScrapperForm(initial={'choice': option, 'dictionary': data})
-
-    # Jeśli to nie jest POST, wyświetl formularz z wypełnionymi danymi
-    else:
-        form = ScrapperForm(initial={'choice': option, 'dictionary': data})
-
-    return redirect(to='quotesapp:main')
+    return render(request, 'quotesapp/scraped_data.html', {'scraped_data': data})

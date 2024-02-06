@@ -18,9 +18,9 @@
         </div>
         <div style="width: 50%;">
             <ul style="float: right; text-align: right;">
-                <li><a style="width: 150px;" href="{% url 'quotesapp:scrapper' option='author' %}" role="button" >Scrap Authors</a></li>
-                <li><a style="width: 140px;" href="{% url 'quotesapp:scrapper' option='quote' %}" role="button" >Scrap Quotes</a></li>
-                <li><a style="width: 140px;" href="{% url 'quotesapp:scrapper' option='tag' %}" role="button" >Scrap Tags</a></li>
+                <li><a style="width: 150px;" href="{% url 'quotesapp:scraper' option='author' %}" role="button" >Scrap Authors</a></li>
+                <li><a style="width: 150px;" href="{% url 'quotesapp:scraper' option='quote' %}" role="button" >Scrap Quotes</a></li>
+                <li><a style="width: 140px;" href="{% url 'quotesapp:scraper' option='tag' %}" role="button" >Scrap Tags</a></li>
             </ul>
         </div>
         {% else %}
@@ -36,7 +36,9 @@
         
         <div style="margin-top:3%; padding-top:2%; clear: both;">
             <div style="float: left; width: 70%;" class="record">
-                <span style="font-size: 140%" class="quote">"{{ quote.content }}"</span><br>
+                <span style="font-size: 140%">"</span>
+                <span style="font-size: 140%" class="quote">{{ quote.content }}</span>
+                <span style="font-size: 140%">"</span><br>
                 <span style="font-style: italic;" class="author">
                     <a href="{% url 'quotesapp:author' quote.author.id %}">{{ quote.author }}</a>
                 </span><br>
