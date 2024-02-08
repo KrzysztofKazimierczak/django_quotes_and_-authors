@@ -13,10 +13,9 @@ def find_data(url, data_to_scrap):
         for div_to_scrap in soup.find_all('div', class_='record'):
             scrapped_data = div_to_scrap.find_all('span', class_=data_to_scrap)
             if scrapped_data:
-                scrapped_data_text = ','.join(tag.get_text(strip=True) for tag in scrapped_data)
+                scrapped_data_text = ','.join(data.get_text(strip=True) for data in scrapped_data)
                 data_list.append({data_to_scrap: scrapped_data_text})
         break
-                           
     return data_list
 
 

@@ -2,8 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import TagForm, QuoteForm, AuthorForm, ScrapperForm
 from .models import Tag, Quote, Author, ScrapData
 from scrap_with_bs import find_data
-import subprocess
-import os
+import subprocess, os, json
 
 
 def main(request):
@@ -66,16 +65,20 @@ def delete_quote(request, quote_id):
     Quote.objects.get(pk=quote_id).delete()
     return redirect(to='quotesapp:main')
 
+# Beautifoul soup scraper
 
-"""def scraper(request, option):
+"""
+def scraper(request, option):
     url = "http://localhost:8000/"
     data = find_data(url, option)
 
     scrap_data_object = ScrapData(choice=option, dictionary=data)
     scrap_data_object.save()
 
-    return render(request, 'quotesapp/scraped_data.html', {'scraped_data': data})"""
+    return render(request, 'quotesapp/scraped_data.html', {'scraped_data': data})
+"""
 
+# Scrapy scraper
 def scraper(request, option):
     django_project_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     scrapy_project_dir = os.path.join(django_project_dir, 'scrapmyside/scrapmyside')
@@ -86,10 +89,12 @@ def scraper(request, option):
     output, _ = process.communicate()
     
     scraped_data = output.decode('utf-8')
+    scraped_data_fixed = scraped_data.replace("'", '"')
+    data = json.loads(scraped_data_fixed)
     
-    scrap_data_object = ScrapData(choice=option, dictionary=scraped_data)
+    scrap_data_object = ScrapData(choice=option, dictionary=data)
     scrap_data_object.save()
 
     os.chdir(django_project_dir)
 
-    return render(request, 'quotesapp/scraped_data.html', {'scraped_data': scraped_data})
+    return render(request, 'quotesapp/scraped_data.html', {'scraped_data': data})
