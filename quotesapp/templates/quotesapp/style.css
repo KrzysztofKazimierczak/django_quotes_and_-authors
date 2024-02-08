@@ -1,0 +1,83 @@
+/* Navigation */
+.navigation {
+    margin-bottom: 20px;
+    border-bottom: 2px solid;
+    padding-left: 30px;
+}
+
+.nav-left, .nav-right {
+    width: 50%;
+    float: left;
+}
+
+.nav-right {
+    text-align: right;
+}
+
+.nav-button {
+    display: inline-block;
+    padding: 10px 20px;
+    text-decoration: none;
+}
+
+/* Quote Container */
+.quote-container {
+    margin-top: 3%;
+    padding-top: 2%;
+    clear: both;
+}
+
+.quote-content {
+    float: left;
+    width: 70%;
+}
+
+.quote-text {
+    font-size: 140%;
+}
+
+.quote-author {
+    font-style: italic;
+}
+
+.quote-tags {
+    font-size: 80%;
+}
+
+.tag-link {
+    text-decoration: none;
+}
+
+/* Quote Action */
+.quote-action {
+    width: 30%;
+    float: right;
+    text-align: right;
+}
+
+.delete-link {
+    text-decoration: none;
+}
+
+/* Pagination */
+.pagination {
+    text-align: center;
+    margin-top: 25px;
+}
+
+.pagination-link {
+    margin: 0 5px;
+}
+
+.page-number {
+    display: inline;
+    margin: 0 10px;
+}
+
+.first-next {
+    float: left;
+}
+
+.last-previous {
+    float: right;
+}
