@@ -12,4 +12,6 @@ urlpatterns = [
     path('add_tag/', views.add_tag, name='add_tag'),
     path('delete/<int:quote_id>', views.delete_quote, name='delete'),
     path('scrap/<str:option>/', views.scraper, name='scraper'),
+    path('quotes_by_tag/<int:tag_id>/', views.quotes_by_tag, name='quotes_by_tag'),
+    path('top_ten_tags/', views.top_ten_tags, name='top_ten_tags'),
 ]

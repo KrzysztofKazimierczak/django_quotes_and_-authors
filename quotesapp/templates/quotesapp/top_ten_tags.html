@@ -1,0 +1,12 @@
+{% if quotes %}
+<div style="display: block; text-align: left; display: table; clear: both; margin-top: 15%;">
+    <h3>Top Ten Tags</h3>
+    <ul>
+        {% for tag in top_tags %}
+            <li style="list-style-type: none;">
+                <a href="{% url 'quotesapp:quotes_by_tag' tag.id %}">{{ tag.tag }}</a> ({{ tag.num_quotes }})
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
