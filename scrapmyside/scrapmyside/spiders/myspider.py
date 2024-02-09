@@ -1,7 +1,5 @@
-#from scrapy.spiders import CrawlSpider
 import scrapy
 from scrapmyside.items import ScrapedDataItem
-
 
 class MySpider(scrapy.Spider):
     name = 'myspider'
@@ -31,6 +29,6 @@ class MySpider(scrapy.Spider):
             next_page_url = response.urljoin(next_page)
             yield scrapy.Request(url=next_page_url, callback=self.parse)
         else:
-            print(self.data_list)       
-        
-
+            scrap_data_object = ScrapedDataItem(choice=self.data_to_scrap, dictionary=self.data_list)
+            scrap_data_object.save()
+            print("Done")
