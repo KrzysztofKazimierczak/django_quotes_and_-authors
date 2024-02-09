@@ -7,6 +7,7 @@ class MySpider(scrapy.Spider):
     name = 'myspider'
     allowed_domains = ['localhost']
     start_urls = ['http://localhost:8000/']
+    data_list = []
 
 
     def __init__(self, *args, **kwargs):
@@ -14,11 +15,22 @@ class MySpider(scrapy.Spider):
         self.data_to_scrap = kwargs.get('data_to_scrap', '').lower()
 
     def parse(self, response):
-        data_list = []
+
         for div_to_scrap in response.xpath("//div[@class='record']"):
-            span_datas = div_to_scrap.xpath(".//span[@class='" + self.data_to_scrap + "']")
-            scrapped_data_text = ','.join(span.xpath("string()").get().strip() for span in span_datas)
-            data_list.append({self.data_to_scrap: scrapped_data_text})
+            scrapped_data = div_to_scrap.xpath(".//span[@class='" + self.data_to_scrap + "']")
+            if scrapped_data:
+               for data in scrapped_data:
+                    scrapped_data_text = data.xpath("string()").get().strip()
+                    record = {self.data_to_scrap: scrapped_data_text}
+                    if record not in self.data_list:
+                        self.data_list.append(record)
         
-        print(data_list)
+        next_page = response.xpath("//a[@class='next']/@href").get()
+
+        if next_page:
+            next_page_url = response.urljoin(next_page)
+            yield scrapy.Request(url=next_page_url, callback=self.parse)
+        else:
+            print(self.data_list)       
+        
 
