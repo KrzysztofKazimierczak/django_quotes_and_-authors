@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Author(models.Model):
     name = models.CharField(max_length=50, null=False, unique=True)
     born_date = models.DateField()
@@ -26,9 +27,9 @@ class Quote(models.Model):
 
     def __str__(self):
         return f"{self.content}"
-    
+
 class ScrapData(models.Model):
-    choice = models.CharField(max_length=255)
+    choice = models.CharField(max_length=10)
     dictionary = models.JSONField()
 
     def __str__(self):
