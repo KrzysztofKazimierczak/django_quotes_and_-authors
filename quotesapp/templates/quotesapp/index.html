@@ -70,7 +70,7 @@
                     {% if quote.tags.all %}
                         {% for tag in quote.tags.all %}
                             {% if not forloop.first %}, {% endif %}
-                            <a href="{% url 'quotesapp:quotes_by_tag' tag.id %}">{{ tag.tag }}</a>
+                            <span class="tag"><a href="{% url 'quotesapp:quotes_by_tag' tag.id %}">{{ tag.tag }}</a></span>
                         {% endfor %}
                     {% endif %}
                 </span>
@@ -98,7 +98,7 @@
 
         {% if page_obj.has_next %}
             <div class="last-previous">
-                <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                <a href="?page={{ page_obj.next_page_number }}" class="next">Next</a>
                 <a href="?page={{ page_obj.paginator.num_pages }}">Last</a>
             </div>
         {% endif %}
