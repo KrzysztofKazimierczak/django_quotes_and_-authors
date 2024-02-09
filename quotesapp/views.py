@@ -96,31 +96,8 @@ def top_ten_tags(request):
 
 
 
-# Scrapy scraper
-
-def scraper(request, option):
-    django_project_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    scrapy_project_dir = os.path.join(django_project_dir, 'scrapmyside/scrapmyside')
-    
-    os.chdir(scrapy_project_dir)
-    
-    process = subprocess.Popen(['scrapy', 'crawl', 'myspider', '-a', f'data_to_scrap={option}'], stdout=subprocess.PIPE)
-    output, _ = process.communicate()
-    
-    scraped_data = output.decode('utf-8')
-    scraped_data_fixed = scraped_data.replace("'", '"')
-    data = json.loads(scraped_data_fixed)
-    
-    scrap_data_object = ScrapData(choice=option, dictionary=data)
-    scrap_data_object.save()
-
-    os.chdir(django_project_dir)
-
-    return render(request, 'quotesapp/scraped_data.html', {'scraped_data': data})
-
 # Beautifoul soup scraper
 
-"""
 def scraper(request, option):
     url = "http://localhost:8000/"
     data = find_data(url, option)
@@ -129,4 +106,26 @@ def scraper(request, option):
     scrap_data_object.save()
 
     return render(request, 'quotesapp/scraped_data.html', {'scraped_data': data})
+
+
+
+# Scrapy scraper
+"""
+def scraper(request, option):
+    django_project_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    scrapy_project_dir = os.path.join(django_project_dir, 'scrapmyside/scrapmyside')
+    os.chdir(scrapy_project_dir)
+    
+    process = subprocess.Popen(['scrapy', 'crawl', 'myspider', '-a', f'data_to_scrap={option}'], stdout=subprocess.PIPE)
+    output, _ = process.communicate()
+
+    while output:
+        break
+
+    os.chdir(django_project_dir)
+
+    latest_scrap_data = ScrapData.objects.latest('id')
+    data_to_show = latest_scrap_data.dictionary
+
+    return render(request, 'quotesapp/scraped_data.html', {'scraped_data': data_to_show})
 """
